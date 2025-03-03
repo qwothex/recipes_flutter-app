@@ -10,7 +10,16 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.17
+  shared_preferences: ^2.5.2
   supabase_flutter: ^2.8.3
+  http: ^1.2.0
+  image_picker: ^1.0.7
+  flutter_sound: ^9.2.13
+  path_provider: ^2.1.2
+  permission_handler: ^11.3.0
+  audioplayers: ^5.2.1
+  provider: ^6.1.2
+
 
 dev_dependencies:
   flutter_test:

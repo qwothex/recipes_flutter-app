@@ -2,20 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/UI/widgets/AppBar.dart';
 import 'package:recipe_app/UI/widgets/Button.dart';
 import 'package:recipe_app/UI/widgets/RecipesList.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 // ignore: must_be_immutable
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final supabase = Supabase.instance.client;
 
   List<recipesModel> recipes = [];
+  bool isLoading = true;
+  String imageUrl = '';
 
-  void _getRecipes (){
-    recipes = recipesModel.getrecipes();
+  @override
+  void initState() {
+    super.initState();
+    qwe();
   }
-  
+
+  void qwe() async{
+      var data = await recipesModel.getRecipes();
+      if(data.isNotEmpty){
+        setState(() {
+          recipes = data;
+          isLoading = false; 
+        });  
+      }
+    }
+
   @override
   Widget build(BuildContext context){
-    _getRecipes();
     return Scaffold(
       appBar: appBar(false, 'Recipes', context),
       body: ListView(
@@ -50,14 +71,14 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     FilterButton(text: 'Soup'),
-                    SizedBox(height: 15,),
+                    SizedBox(height: 15),
                     FilterButton(text: 'Dinner'),
                   ]
                 ),
                 Column(
                   children: [
                     FilterButton(text: 'Dessert'),
-                    SizedBox(height: 15,),
+                    SizedBox(height: 15),
                     FilterButton(text: 'Breakfast'),
                   ]
                 )
@@ -75,7 +96,11 @@ class HomePage extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 600,
-            child: ListView.separated(
+            child: 
+              isLoading ? 
+                Center(child: CircularProgressIndicator())
+              :
+            ListView.separated(
             separatorBuilder: (context, index) => const SizedBox(height: 25,),
             itemCount: recipes.length,
             scrollDirection: Axis.horizontal,
@@ -104,7 +129,7 @@ class HomePage extends StatelessWidget {
                           height: 300,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(recipes[index].imgPath),
+                              image: NetworkImage(recipes[index].image),
                               fit: BoxFit.fitWidth,
                             )
                           ),
@@ -133,7 +158,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               );
-            },),
+            }),
           ),
         ],
       ),

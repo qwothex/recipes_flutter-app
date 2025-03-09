@@ -1,0 +1,271 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.recipe_app"
+4    android:versionCode="1"
+5    android:versionName="0.1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+11-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:2:5-70
+11-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:2:22-68
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:3:5-66
+12-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:3:22-64
+13    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+13-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:4:5-76
+13-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:4:22-74
+14    <uses-permission android:name="android.permission.BLUETOOTH" />
+14-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:5:5-67
+14-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:5:22-65
+15    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+15-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:6:5-73
+15-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:6:22-71
+16    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+16-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:7:5-75
+16-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:7:22-73
+17    <!--
+18         Required to query activities that can process text, see:
+19         https://developer.android.com/training/package-visibility and
+20         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+21
+22         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin.
+23    -->
+24    <queries>
+24-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:49:5-54:15
+25        <intent>
+25-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:50:9-53:18
+26            <action android:name="android.intent.action.PROCESS_TEXT" />
+26-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:51:13-72
+26-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:51:21-70
+27
+28            <data android:mimeType="text/plain" />
+28-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:52:13-50
+28-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:52:19-48
+29        </intent>
+30        <intent>
+30-->[androidx.media:media:1.4.1] /Users/macbook/.gradle/caches/8.10.2/transforms/bca68dfd9ce471ae55eb4587b36dc2dd/transformed/media-1.4.1/AndroidManifest.xml:25:9-27:18
+31            <action android:name="android.media.browse.MediaBrowserService" />
+31-->[androidx.media:media:1.4.1] /Users/macbook/.gradle/caches/8.10.2/transforms/bca68dfd9ce471ae55eb4587b36dc2dd/transformed/media-1.4.1/AndroidManifest.xml:26:13-79
+31-->[androidx.media:media:1.4.1] /Users/macbook/.gradle/caches/8.10.2/transforms/bca68dfd9ce471ae55eb4587b36dc2dd/transformed/media-1.4.1/AndroidManifest.xml:26:21-76
+32        </intent>
+33    </queries>
+34
+35    <uses-permission android:name="android.permission.WAKE_LOCK" />
+35-->[com.github.canardoux:flutter_sound_core:9.23.1] /Users/macbook/.gradle/caches/8.10.2/transforms/13d126945d91047e014fc9830b16998b/transformed/jetified-flutter_sound_core-9.23.1/AndroidManifest.xml:8:5-68
+35-->[com.github.canardoux:flutter_sound_core:9.23.1] /Users/macbook/.gradle/caches/8.10.2/transforms/13d126945d91047e014fc9830b16998b/transformed/jetified-flutter_sound_core-9.23.1/AndroidManifest.xml:8:22-65
+36    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+36-->[com.github.canardoux:flutter_sound_core:9.23.1] /Users/macbook/.gradle/caches/8.10.2/transforms/13d126945d91047e014fc9830b16998b/transformed/jetified-flutter_sound_core-9.23.1/AndroidManifest.xml:9:5-80
+36-->[com.github.canardoux:flutter_sound_core:9.23.1] /Users/macbook/.gradle/caches/8.10.2/transforms/13d126945d91047e014fc9830b16998b/transformed/jetified-flutter_sound_core-9.23.1/AndroidManifest.xml:9:22-77
+37    <uses-permission android:name="Manifest.permission.CAPTURE_AUDIO_OUTPUT" />
+37-->[com.github.canardoux:flutter_sound_core:9.23.1] /Users/macbook/.gradle/caches/8.10.2/transforms/13d126945d91047e014fc9830b16998b/transformed/jetified-flutter_sound_core-9.23.1/AndroidManifest.xml:11:5-80
+37-->[com.github.canardoux:flutter_sound_core:9.23.1] /Users/macbook/.gradle/caches/8.10.2/transforms/13d126945d91047e014fc9830b16998b/transformed/jetified-flutter_sound_core-9.23.1/AndroidManifest.xml:11:22-77
+38
+39    <permission
+39-->[androidx.core:core:1.13.1] /Users/macbook/.gradle/caches/8.10.2/transforms/9c2328469b70c1da83cf603df16ceaeb/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+40        android:name="com.example.recipe_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+40-->[androidx.core:core:1.13.1] /Users/macbook/.gradle/caches/8.10.2/transforms/9c2328469b70c1da83cf603df16ceaeb/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+41        android:protectionLevel="signature" />
+41-->[androidx.core:core:1.13.1] /Users/macbook/.gradle/caches/8.10.2/transforms/9c2328469b70c1da83cf603df16ceaeb/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+42
+43    <uses-permission android:name="com.example.recipe_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+43-->[androidx.core:core:1.13.1] /Users/macbook/.gradle/caches/8.10.2/transforms/9c2328469b70c1da83cf603df16ceaeb/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+43-->[androidx.core:core:1.13.1] /Users/macbook/.gradle/caches/8.10.2/transforms/9c2328469b70c1da83cf603df16ceaeb/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+44
+45    <application
+46        android:name="android.app.Application"
+46-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:10:9-42
+47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+47-->[androidx.core:core:1.13.1] /Users/macbook/.gradle/caches/8.10.2/transforms/9c2328469b70c1da83cf603df16ceaeb/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+48        android:extractNativeLibs="false"
+49        android:icon="@mipmap/ic_launcher"
+49-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:11:9-43
+50        android:label="recipe_app" >
+50-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:9:9-35
+51        <service
+51-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:12:9-15:11
+52            android:name="com.csdcorp.speech_to_text.SpeechToTextService"
+52-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:13:13-74
+53            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+53-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:14:13-79
+54
+55        <activity
+55-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:16:9-37:20
+56            android:name="com.example.recipe_app.MainActivity"
+56-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:17:13-41
+57            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+57-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:22:13-163
+58            android:exported="true"
+58-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:18:13-36
+59            android:hardwareAccelerated="true"
+59-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:23:13-47
+60            android:launchMode="singleTop"
+60-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:19:13-43
+61            android:taskAffinity=""
+61-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:20:13-36
+62            android:theme="@style/LaunchTheme"
+62-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:21:13-47
+63            android:windowSoftInputMode="adjustResize" >
+63-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:24:13-55
+64
+65            <!--
+66                 Specifies an Android theme to apply to this Activity as soon as
+67                 the Android process has started. This theme is visible to the user
+68                 while the Flutter UI initializes. After that, this theme continues
+69                 to determine the Window background behind the Flutter UI.
+70            -->
+71            <meta-data
+71-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:29:13-32:17
+72                android:name="io.flutter.embedding.android.NormalTheme"
+72-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:30:15-70
+73                android:resource="@style/NormalTheme" />
+73-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:31:15-52
+74
+75            <intent-filter>
+75-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:33:13-36:29
+76                <action android:name="android.intent.action.MAIN" />
+76-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:34:17-68
+76-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:34:25-66
+77
+78                <category android:name="android.intent.category.LAUNCHER" />
+78-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:35:17-76
+78-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:35:27-74
+79            </intent-filter>
+80        </activity>
+81        <!--
+82             Don't delete the meta-data below.
+83             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+84        -->
+85        <meta-data
+85-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:40:9-42:33
+86            android:name="flutterEmbedding"
+86-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:41:13-44
+87            android:value="2" />
+87-->/Users/macbook/recipe_app/android/app/src/main/AndroidManifest.xml:42:13-30
+88
+89        <provider
+89-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:9-17:20
+90            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+90-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-82
+91            android:authorities="com.example.recipe_app.flutter.image_provider"
+91-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-74
+92            android:exported="false"
+92-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:13-37
+93            android:grantUriPermissions="true" >
+93-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:13-47
+94            <meta-data
+94-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:13-16:75
+95                android:name="android.support.FILE_PROVIDER_PATHS"
+95-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:17-67
+96                android:resource="@xml/flutter_image_picker_file_paths" />
+96-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:16:17-72
+97        </provider> <!-- Trigger Google Play services to install the backported photo picker module. -->
+98        <service
+98-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:19:9-31:19
+99            android:name="com.google.android.gms.metadata.ModuleDependencies"
+99-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:20:13-78
+100            android:enabled="false"
+100-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:21:13-36
+101            android:exported="false" >
+101-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:22:13-37
+102            <intent-filter>
+102-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:24:13-26:29
+103                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+103-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:25:17-94
+103-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:25:25-91
+104            </intent-filter>
+105
+106            <meta-data
+106-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:28:13-30:36
+107                android:name="photopicker_activity:0:required"
+107-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:29:17-63
+108                android:value="" />
+108-->[:image_picker_android] /Users/macbook/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+21/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:30:17-33
+109        </service>
+110
+111        <activity
+111-->[:url_launcher_android] /Users/macbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.14/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:8:9-11:74
+112            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+112-->[:url_launcher_android] /Users/macbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.14/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:13-74
+113            android:exported="false"
+113-->[:url_launcher_android] /Users/macbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.14/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-37
+114            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+114-->[:url_launcher_android] /Users/macbook/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.14/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-71
+115
+116        <uses-library
+116-->[androidx.window:window:1.2.0] /Users/macbook/.gradle/caches/8.10.2/transforms/34e2e53a3f29b59238ad3dc7d3c290e1/transformed/jetified-window-1.2.0/AndroidManifest.xml:23:9-25:40
+117            android:name="androidx.window.extensions"
+117-->[androidx.window:window:1.2.0] /Users/macbook/.gradle/caches/8.10.2/transforms/34e2e53a3f29b59238ad3dc7d3c290e1/transformed/jetified-window-1.2.0/AndroidManifest.xml:24:13-54
+118            android:required="false" />
+118-->[androidx.window:window:1.2.0] /Users/macbook/.gradle/caches/8.10.2/transforms/34e2e53a3f29b59238ad3dc7d3c290e1/transformed/jetified-window-1.2.0/AndroidManifest.xml:25:13-37
+119        <uses-library
+119-->[androidx.window:window:1.2.0] /Users/macbook/.gradle/caches/8.10.2/transforms/34e2e53a3f29b59238ad3dc7d3c290e1/transformed/jetified-window-1.2.0/AndroidManifest.xml:26:9-28:40
+120            android:name="androidx.window.sidecar"
+120-->[androidx.window:window:1.2.0] /Users/macbook/.gradle/caches/8.10.2/transforms/34e2e53a3f29b59238ad3dc7d3c290e1/transformed/jetified-window-1.2.0/AndroidManifest.xml:27:13-51
+121            android:required="false" />
+121-->[androidx.window:window:1.2.0] /Users/macbook/.gradle/caches/8.10.2/transforms/34e2e53a3f29b59238ad3dc7d3c290e1/transformed/jetified-window-1.2.0/AndroidManifest.xml:28:13-37
+122
+123        <provider
+123-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+124            android:name="androidx.startup.InitializationProvider"
+124-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:25:13-67
+125            android:authorities="com.example.recipe_app.androidx-startup"
+125-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:26:13-68
+126            android:exported="false" >
+126-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:27:13-37
+127            <meta-data
+127-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+128                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+128-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+129                android:value="androidx.startup" />
+129-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/macbook/.gradle/caches/8.10.2/transforms/8dffb8479f2af660b1f5e82080f0eb11/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+130            <meta-data
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+131                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+131-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+132                android:value="androidx.startup" />
+132-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+133        </provider>
+134
+135        <receiver
+135-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+136            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+137            android:directBootAware="false"
+137-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+138            android:enabled="true"
+138-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+139            android:exported="true"
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+140            android:permission="android.permission.DUMP" >
+140-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+141            <intent-filter>
+141-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+142                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+143            </intent-filter>
+144            <intent-filter>
+144-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+145                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+146            </intent-filter>
+147            <intent-filter>
+147-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+148                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+148-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+148-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+149            </intent-filter>
+150            <intent-filter>
+150-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+151                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+151-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+151-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/macbook/.gradle/caches/8.10.2/transforms/03aa499a0d10a6d47e4148a4dbe190d2/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+152            </intent-filter>
+153        </receiver>
+154    </application>
+155
+156</manifest>

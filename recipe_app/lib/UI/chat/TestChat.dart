@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-
 import 'package:recipe_app/UI/chat/AudioRecorder.dart';
+import 'package:recipe_app/UI/chat/MarkdownParser.dart';
+import 'package:recipe_app/UI/chat/ResponseLoader.dart';
 import 'package:recipe_app/UI/widgets/RecipesList.dart';
 import 'package:recipe_app/state/provider.dart';
 
@@ -18,25 +20,29 @@ class ChatBotForm extends StatefulWidget {
 
 class _ChatBotFormState extends State<ChatBotForm> {
 
-  var isOpen = false;
-  var isExpanded = false;
-  var isExpandedOptions = false;
+  bool isOpen = false;
+  bool isExpanded = false;
+  bool isExpandedOptions = false;
+  bool _isResponseLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return isOpen ? Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
+
+    final sessionM = context.watch<StateProvider>().sessionMessages;
+
+    
+    return isOpen ?
         AnimatedContainer(
           duration: Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          height: isExpanded ? MediaQuery.of(context).size.height * 0.87 : MediaQuery.of(context).size.height * 0.6, //85
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+          height: isExpanded ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.height * 0.6,
+          padding: EdgeInsets.only(top: 0, bottom: 15, left: 20, right: 5),
           decoration: BoxDecoration(
             color: Colors.black,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(7)),
           ),
-          child: Column(
+          child: Flex(
+            direction: Axis.vertical,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
                 Row(
@@ -57,7 +63,6 @@ class _ChatBotFormState extends State<ChatBotForm> {
                         onPressed: () {
                           setState(() {
                             isOpen = false;
-                            isExpanded = false;
                           });
                         }, 
                         icon: Icon(Icons.close)
@@ -66,37 +71,59 @@ class _ChatBotFormState extends State<ChatBotForm> {
                     )
                   ]
                 ),
-                SizedBox(),
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        "What can I help with?",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                      SizedBox(height: 15),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          ChatOption(icon: Icons.image, text: "Create image", color: Colors.green),
-                          ChatOption(icon: Icons.school, text: "Get advice", color: Colors.blue),
-                          ChatOption(icon: Icons.article, text: "Summarize text", color: Colors.orange),
-                          ChatOption(icon: Icons.code, text: "Code", color: Colors.purple),
-                          ChatOption(icon: Icons.more_horiz, text: "More", color: Colors.grey),
-                        ],
-                      ),
-                    ],
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Align(
+                          alignment: index % 2 == 0 ? Alignment.topRight : Alignment.topLeft,
+                            child: 
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(255, 55, 55, 55),
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: sessionM[index].text != null 
+                                      ? MarkdownParser(text: sessionM[index].text!) 
+                                      : sessionM[index].data != null 
+                                        ? Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(8),
+                                              child: Image.file(sessionM[index].data!["image"], height: 200, width: 200, fit: BoxFit.cover),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              sessionM[index].data!["text"], 
+                                              textAlign: TextAlign.end,
+                                              style: TextStyle(
+                                                color: Colors.white
+                                              )
+                                            )
+                                          ],
+                                        )
+                                        : sessionM[index].widget as Widget
+                                  ),
+                                  SizedBox(height: 20),
+                                ],
+                              )
+                        );
+                      },
+                      itemCount: sessionM.length
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
-              ChatInputField(),
+              ChatInputField(isResponseLoading: _isResponseLoading),
             ],
           ),
-        ),
-      ],
-    )
+        )
     :
     GestureDetector(
       onTap: () {
@@ -117,53 +144,23 @@ class ChatButton extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       child: Container(
-        width: 95,
-        height: 95,
+        width: 90,
+        height: 90,
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: Colors.white,
           shape: BoxShape.circle,
+          border: Border.all(color: Colors.black)
         ),
         padding: EdgeInsets.all(10),
-        child: Center(
-          child: Text(
-            'AI',
-            style: TextStyle(color: Colors.white, fontSize: 28),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ChatOption extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Color color;
-
-  const ChatOption({super.key, required this.icon, required this.text, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white24),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: color),
-          SizedBox(width: 8),
-          Text(text, style: TextStyle(color: Colors.white)),
-        ],
+        child: Image.asset("assets/images/app-logo.png", fit: BoxFit.cover)
       ),
     );
   }
 }
 
 class ChatInputField extends StatefulWidget {
-  const ChatInputField({super.key});
+  final bool isResponseLoading;
+  const ChatInputField({super.key, required this.isResponseLoading});
 
   @override
   _ChatInputFieldState createState() => _ChatInputFieldState();
@@ -174,12 +171,46 @@ class _ChatInputFieldState extends State<ChatInputField> {
   bool isExpandedOptions = false;
   File? _selectedImage;
   ParsedRecipe? recipe;
+  void Function(SessionItem) addMessageToSession = (SessionItem message) {};
+  void Function() removeLoaderFn = (){};
+  void Function() clearSpeechResult = (){};
+  late bool _isResponseLoading;
+
 
   @override
   void initState() {
-    _controller.text = "";
+    _isResponseLoading = widget.isResponseLoading;
     super.initState();
   }
+
+  Future<File?> compressToFixedSize(File file, {int targetSizeKB = 512}) async {
+  int quality = 90; // Start with high quality
+  int step = 5; // Reduce quality in steps
+  File? compressedFile;
+
+  while (quality > 0) {
+    final result = await FlutterImageCompress.compressWithFile(
+      file.absolute.path,
+      quality: quality, // Reduce quality dynamically
+    );
+
+    if (result == null) return null;
+
+    // Check file size
+    int sizeInKB = result.length ~/ 512;
+
+    if (sizeInKB <= targetSizeKB) {
+      // If file size is <= 1MB, save and return it
+      compressedFile = File("${file.path}_compressed.jpg");
+      await compressedFile.writeAsBytes(result);
+      break;
+    }
+
+    quality -= step;
+  }
+
+  return compressedFile;
+}
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -202,35 +233,67 @@ class _ChatInputFieldState extends State<ChatInputField> {
     return base64Encode(imageBytes);
   }
 
-
   void _sendMessage() async {
     if (_controller.text.isNotEmpty || _selectedImage != null) {
+      File? compressedImage;
+      String messageText = _controller.text.trim();
+        
+        if(_selectedImage != null){
+          compressedImage = await compressToFixedSize(_selectedImage!);
+          String str = await toBase64(compressedImage!);
+          print(str.length);
+        }
+
+        if(messageText != ''){
+          _controller.clear();
+        }
+        
+        if(compressedImage != null){
+          setState(() {
+            _selectedImage = null;
+          });
+
+          addMessageToSession(SessionItem(data: {"image": compressedImage, "text": messageText}));
+        }else{
+          print(messageText);
+          addMessageToSession(SessionItem(text: messageText));
+        }
+        addMessageToSession(SessionItem(widget: ResponseLoader()));
+
         await http.post(
           Uri.parse('http://34.32.91.19:8000/generate'),
           headers: {
             "Content-Type": "application/json",
           },
-          body: jsonEncode(
-            _selectedImage != null ? 
-              {
-                "image": await toBase64(_selectedImage!),
-                "input_text": _controller.text, 
-                "old_messages": jsonEncode([]), 
-                "recipe": jsonEncode(recipe!.toJson())
-              }
-            :
-              {
-                "input_text": _controller.text, 
-                "old_messages": jsonEncode([]),
-                "recipe": jsonEncode(recipe!.toJson())
-              }
-          ),
-        ).then((res) => print(res.body));
-      
-      setState(() {
-        _controller.clear();
-        _selectedImage = null;
-      });
+          body: 
+            compressedImage != null ? 
+              jsonEncode(
+                {
+                  "image": await toBase64(compressedImage),
+                  "input_text": _controller.text, 
+                  "old_messages": jsonEncode([]), 
+                  "recipe": jsonEncode(recipe!.toJson())
+                }
+              )
+
+              :
+
+              jsonEncode(
+                {
+                  "input_text": _controller.text, 
+                  "old_messages": jsonEncode([]),
+                  "recipe": jsonEncode(recipe!.toJson())
+                }
+              ),
+        ).then((res) async => {
+          removeLoaderFn(),
+          addMessageToSession(SessionItem(text: jsonDecode(res.body)['answer'])),
+          setState(() {
+            clearSpeechResult();
+            _isResponseLoading = false;
+            _selectedImage = null;
+          })
+        });
     }
   }
 
@@ -238,19 +301,24 @@ class _ChatInputFieldState extends State<ChatInputField> {
   Widget build(BuildContext context) {
     final stateProvider = context.watch<StateProvider>();
     setState(() {
-      _controller.text = stateProvider.speechResult;
+      if(stateProvider.speechResult.isNotEmpty){
+        _controller.text = stateProvider.speechResult;
+      };
       recipe = stateProvider.recipe;
+      addMessageToSession = stateProvider.addSessionMessage;
+      removeLoaderFn = stateProvider.removeLoader;
+      clearSpeechResult = stateProvider.clearSpeechResult;
     });
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 10),
       color: Colors.black,
       child: Row(
         children: [
           AnimatedContainer(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            width: isExpandedOptions ? 145 : 0,
+            width: isExpandedOptions ? 100 : 0,
             child: isExpandedOptions
                 ? Row(
                     children: [
@@ -261,10 +329,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
                       IconButton(
                         icon: Icon(Icons.image, color: Colors.white),
                         onPressed: () => _pickImage(ImageSource.gallery),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.language, color: Colors.white),
-                        onPressed: () {},
                       ),
                     ],
                   )
@@ -280,7 +344,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: Colors.grey[900],
                 borderRadius: BorderRadius.circular(30),
@@ -328,8 +392,13 @@ class _ChatInputFieldState extends State<ChatInputField> {
           ),
           AudioRecorder(),
           IconButton(
-            icon: Icon(Icons.send_rounded, color: Colors.white),
-            onPressed: _sendMessage,
+            icon: Icon(Icons.send_rounded, color: _isResponseLoading ? Colors.white24 : Colors.white),
+            onPressed: (){
+              _isResponseLoading ? null : _sendMessage();
+              setState(() {
+                _isResponseLoading = true;
+              });
+            },
           ),
         ],
       ),

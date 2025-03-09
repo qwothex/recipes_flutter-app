@@ -22,10 +22,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    qwe();
+    fetchRecipes();
   }
 
-  void qwe() async{
+  void fetchRecipes() async{
       var data = await recipesModel.getRecipes();
       if(data.isNotEmpty){
         setState(() {
@@ -111,11 +111,10 @@ class _HomePageState extends State<HomePage> {
                     context, 
                     '/recipe',
                     arguments: recipes[index].id
-                  );
-                },
+                  );}, 
                 child: Container(
                   margin: EdgeInsets.all(20),
-                  width: 400,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 1),

@@ -24,7 +24,7 @@ class RecipePage extends StatelessWidget {
 
         ParsedRecipe recipe = snapshot.data!;
         Future.microtask(() => stateProvider.setRecipe(recipe));
-        
+        Future.microtask(() => stateProvider.setsessionActive(true));
 
         return Scaffold(
           appBar: appBar(true, recipe.name, context),
@@ -116,6 +116,7 @@ class RecipePage extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 30,)
               ],
             ),
             Align(

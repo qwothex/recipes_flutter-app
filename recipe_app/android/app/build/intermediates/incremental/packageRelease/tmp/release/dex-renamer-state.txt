@@ -1,0 +1,4 @@
+#Tue Mar 04 19:44:10 TRT 2025
+base.0=/Users/macbook/recipe_app/android/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

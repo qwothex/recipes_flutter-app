@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/state/provider.dart';
 
 class AudioRecorder extends StatefulWidget {
+  const AudioRecorder({super.key});
+
   @override
   _AudioRecorderState createState() => _AudioRecorderState();
 }
@@ -20,6 +22,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
   bool _isRecording = false;
   String? _filePath;
   Map<String, dynamic>? _textSpoken;
+  bool _responseLoading = false;
 
   @override
   void initState() {
@@ -51,6 +54,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
   await _recorder!.stopRecorder();
   setState(() {
     _isRecording = false;
+    _responseLoading = true;
   });
 
   if (_filePath != null) {
@@ -65,10 +69,9 @@ class _AudioRecorderState extends State<AudioRecorder> {
         },
         body: jsonEncode(requestBody),
       ).then((res) => {
-        print('q' + res.body),
-        print('i`m here!'),
         setState(() {
           _textSpoken = jsonDecode(res.body);
+          _responseLoading = false;
         })
       });
 
@@ -84,7 +87,7 @@ Future<String> _convertToBase64(String filePath) async {
     throw Exception("File does not exist: $filePath");
   }
   Uint8List bytes = await file.readAsBytes();
-  return base64Encode(bytes); // Encodes the audio as Base64
+  return base64Encode(bytes); 
 }
 
 
@@ -99,11 +102,10 @@ Future<String> _convertToBase64(String filePath) async {
   @override
   Widget build(BuildContext context) {
 
-    final stateProvider = context.read<StateProvider>();
+    final stateProvider = context.read<StateProvider>().setSpeechResult;
 
     if(_textSpoken != null){
-      print('Setting speech result');
-      Future.microtask(() => stateProvider.setSpeechResult(_textSpoken!))
+      Future.microtask(() => stateProvider(_textSpoken!))
       .then((res) => {
         setState(() {
           _textSpoken = null;
@@ -114,7 +116,11 @@ Future<String> _convertToBase64(String filePath) async {
     return 
       IconButton(
         onPressed: _isRecording ? _stopRecording : _startRecording,
-        icon: _isRecording ? Icon(Icons.mic_off) : Icon(Icons.mic),
+        icon: _isRecording 
+          ? Icon(Icons.stop_circle) 
+          : _responseLoading 
+            ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white),) 
+            : Icon(Icons.mic),
         color: Colors.white,
       );
   }

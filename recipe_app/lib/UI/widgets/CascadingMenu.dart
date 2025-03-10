@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:recipe_app/app_localizations.dart';
+import 'package:recipe_app/state/provider.dart';
 
 class MyCascadingMenu extends StatefulWidget {
   const MyCascadingMenu({super.key});
@@ -19,6 +22,9 @@ class _MyCascadingMenuState extends State<MyCascadingMenu> {
 
   @override
   Widget build(BuildContext context) {
+
+    final setLocale = context.watch<StateProvider>().setLocale;
+
     return MenuAnchor(
       childFocusNode: _buttonFocusNode,
       style: MenuStyle(
@@ -27,24 +33,17 @@ class _MyCascadingMenuState extends State<MyCascadingMenu> {
 
       menuChildren: <Widget>[
         MenuItemButton(
-          onPressed: () {}, 
-          style: ButtonStyle(
-          ),
-          child: const Text('Add Recipe')
+          onPressed: () {
+            setLocale(Locale('en'));
+          }, 
+          child: Text(AppLocalizations.of(context)?.translate("english") ?? 'No locale')
         ),
 
         MenuItemButton(
-          onPressed: () {}, 
-          style: ButtonStyle(
-          ),
-          child: const Text('Setting')
-        ),
-
-        MenuItemButton(
-          onPressed: () {}, 
-          style: ButtonStyle(
-          ),
-          child: const Text('Send Feedback'), 
+          onPressed: () {
+            setLocale(Locale('tr'));
+          }, 
+          child: Text(AppLocalizations.of(context)?.translate("turkish") ?? 'No locale')
         ),
       ],
       builder: (_, MenuController controller, Widget? child) {

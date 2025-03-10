@@ -5,128 +5,103 @@ import 'package:recipe_app/UI/widgets/AppBar.dart';
 import 'package:recipe_app/UI/widgets/RecipesList.dart';
 import 'package:recipe_app/state/provider.dart';
 
-class RecipePage extends StatelessWidget {
+class RecipePage extends StatefulWidget {
   const RecipePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final stateProvider = context.read<StateProvider>();
+  _RecipePageState createState() => _RecipePageState();
+}
+
+class _RecipePageState extends State<RecipePage> {
+  ParsedRecipe? recipe;
+  bool isLoading = true;
+  String? errorMessage;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
     var id = ModalRoute.of(context)!.settings.arguments as String;
+    final locale = context.watch<StateProvider>().locale;
 
-    return FutureBuilder(
-      future: ParsedRecipe.getRecipeById(id),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text("Error: ${snapshot.error}"));
-        }
+    ParsedRecipe.getRecipeById(id, locale).then((data) {
+      if (mounted) {
+        setState(() {
+          recipe = data;
+          isLoading = false;
+        });
 
-        ParsedRecipe recipe = snapshot.data!;
-        Future.microtask(() => stateProvider.setRecipe(recipe));
-        Future.microtask(() => stateProvider.setsessionActive(true));
+        final provider = context.read<StateProvider>();
+        provider.setRecipe(data);
+        provider.setsessionActive(true);
+      }
+    }).catchError((error) {
+      if (mounted) {
+        setState(() {
+          errorMessage = "Error: $error";
+          isLoading = false;
+        });
+      }
+    });
+  }
 
-        return Scaffold(
-          appBar: appBar(true, recipe.name, context),
-          body: Stack(
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (errorMessage != null) {
+      return Center(child: Text(errorMessage!));
+    }
+
+    return Scaffold(
+      appBar: appBar(true, recipe!.name, context),
+      body: Stack(
+        children: [
+          ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             children: [
-              ListView(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(recipe.image),
-                      alignment: Alignment.topLeft,
-                      fit: BoxFit.cover,
-                    ),
+              Container(
+                width: double.infinity,
+                height: 300,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(recipe!.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: 20),
-                Column(
-                  mainAxisSize: MainAxisSize.min, 
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      recipe.name,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 32,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text('By user | '),
-                        Text(DateTime.parse(recipe.created_at).toString().substring(0, 10)),
-                      ],
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      recipe.description,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                    SizedBox(height: 25),
-                    Text(
-                      'Ingredients',
-                      style: TextStyle(
-                        fontSize: 24
-                      ),
-                    ),
-                    Column(
-                      children: recipe.ingredients.asMap().values.map((entry) {
-                        return ListTile(
-                            title: Text(
-                              '${entry.quantity} ${entry.name}',
-                              style: TextStyle(
-                                fontSize: 20
-                              ),
-                            ),
-                          );
-                      }).toList()
-                    ),
-                    SizedBox(height: 25),
-                    Text(
-                      'Get started',
-                      style: TextStyle(
-                        fontSize: 24
-                      ),
-                    ),
-                    Column(
-                      children: recipe.steps.asMap().values.map((entry) {
-                        return ListTile(
-                            title: Text(
-                              entry.title,
-                              style: TextStyle(
-                                fontSize: 24
-                              ),
-                            ),
-                            subtitle: Text(
-                              entry.description,
-                              style: TextStyle(
-                                fontSize: 22
-                              ),
-                            ),
-                          );
-                      }).toList()
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30,)
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: ChatBotForm(),
-            )
-            ]
+              ),
+              const SizedBox(height: 20),
+              Text(recipe!.name, style: const TextStyle(fontSize: 32)),
+              Row(
+                children: [
+                  const Text('By user | '),
+                  Text(recipe!.created_at.substring(0, 10)),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text(recipe!.description, style: const TextStyle(fontSize: 24)),
+              const SizedBox(height: 25),
+              const Text('Ingredients', style: TextStyle(fontSize: 24)),
+              ...recipe!.ingredients.map((entry) => ListTile(
+                    title: Text('${entry.quantity} ${entry.name}', style: const TextStyle(fontSize: 20)),
+                  )),
+              const SizedBox(height: 25),
+              const Text('Get started', style: TextStyle(fontSize: 24)),
+              ...recipe!.steps.map((entry) => ListTile(
+                    title: Text(entry.title, style: const TextStyle(fontSize: 24)),
+                    subtitle: Text(entry.description, style: const TextStyle(fontSize: 22)),
+                  )),
+              const SizedBox(height: 30),
+            ],
           ),
-        );
-      },
+          const Align(
+            alignment: Alignment.bottomRight,
+            child: ChatBotForm(),
+          ),
+        ],
+      ),
     );
   }
 }

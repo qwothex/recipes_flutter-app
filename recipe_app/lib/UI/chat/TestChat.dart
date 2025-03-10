@@ -9,6 +9,7 @@ import 'package:recipe_app/UI/chat/AudioRecorder.dart';
 import 'package:recipe_app/UI/chat/MarkdownParser.dart';
 import 'package:recipe_app/UI/chat/ResponseLoader.dart';
 import 'package:recipe_app/UI/widgets/RecipesList.dart';
+import 'package:recipe_app/app_localizations.dart';
 import 'package:recipe_app/state/provider.dart';
 
 class ChatBotForm extends StatefulWidget {
@@ -23,14 +24,13 @@ class _ChatBotFormState extends State<ChatBotForm> {
   bool isOpen = false;
   bool isExpanded = false;
   bool isExpandedOptions = false;
-  bool _isResponseLoading = false;
+  bool isResponseLoading = false;
 
   @override
   Widget build(BuildContext context) {
 
     final sessionM = context.watch<StateProvider>().sessionMessages;
 
-    
     return isOpen ?
         AnimatedContainer(
           duration: Duration(milliseconds: 300),
@@ -48,7 +48,10 @@ class _ChatBotFormState extends State<ChatBotForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('AI chat', style: TextStyle(color: Colors.white)),
+                    Text(
+                      AppLocalizations.of(context)?.translate("ai_helper") ?? 'No locale',
+                      style: TextStyle(color: Colors.white)
+                    ),
                     Row(
                       children: [
                       IconButton(
@@ -120,7 +123,7 @@ class _ChatBotFormState extends State<ChatBotForm> {
                     ),
                   ),
                 ),
-              ChatInputField(isResponseLoading: _isResponseLoading),
+              ChatInputField(isResponseLoading: isResponseLoading),
             ],
           ),
         )
@@ -174,12 +177,12 @@ class _ChatInputFieldState extends State<ChatInputField> {
   void Function(SessionItem) addMessageToSession = (SessionItem message) {};
   void Function() removeLoaderFn = (){};
   void Function() clearSpeechResult = (){};
-  late bool _isResponseLoading;
+  late bool isResponseLoading;
 
 
   @override
   void initState() {
-    _isResponseLoading = widget.isResponseLoading;
+    isResponseLoading = widget.isResponseLoading;
     super.initState();
   }
 
@@ -290,7 +293,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
           addMessageToSession(SessionItem(text: jsonDecode(res.body)['answer'])),
           setState(() {
             clearSpeechResult();
-            _isResponseLoading = false;
+            isResponseLoading = false;
             _selectedImage = null;
           })
         });
@@ -380,7 +383,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                   TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: "Message",
+                      hintText: AppLocalizations.of(context)?.translate("ai_helper_placeholder") ?? 'No locale',
                       hintStyle: TextStyle(color: Colors.white54),
                       border: InputBorder.none,
                     ),
@@ -392,11 +395,11 @@ class _ChatInputFieldState extends State<ChatInputField> {
           ),
           AudioRecorder(),
           IconButton(
-            icon: Icon(Icons.send_rounded, color: _isResponseLoading ? Colors.white24 : Colors.white),
+            icon: Icon(Icons.send_rounded, color: isResponseLoading ? Colors.white24 : Colors.white),
             onPressed: (){
-              _isResponseLoading ? null : _sendMessage();
+              isResponseLoading ? null : _sendMessage();
               setState(() {
-                _isResponseLoading = true;
+                isResponseLoading = true;
               });
             },
           ),

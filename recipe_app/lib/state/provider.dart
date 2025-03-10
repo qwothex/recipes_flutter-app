@@ -14,11 +14,14 @@ class StateProvider with ChangeNotifier {
   String _speechResult = '';
   bool _sessionActive = false;
   List<SessionItem> _sessionMessages = [];
+  Locale _locale = const Locale('en');
 
   ParsedRecipe? get recipe => _recipe;
   String get speechResult => _speechResult;
   bool get isSessionActive => _sessionActive;
   List<SessionItem> get sessionMessages => _sessionMessages;
+  Locale get locale => _locale;
+
 
   void setRecipe(ParsedRecipe recipe) {
     _recipe = recipe;
@@ -41,15 +44,18 @@ class StateProvider with ChangeNotifier {
   }
 
   void addSessionMessage(SessionItem message){
-    if(message.data != null){
-      print(message.data);
-    }
     sessionMessages.add(message);
     notifyListeners();
   }
 
   void removeLoader(){
     sessionMessages.removeLast();
+    notifyListeners();
+  }
+
+  void setLocale(Locale newLocale) {
+    if (_locale == newLocale) return;
+    _locale = newLocale;
     notifyListeners();
   }
 }

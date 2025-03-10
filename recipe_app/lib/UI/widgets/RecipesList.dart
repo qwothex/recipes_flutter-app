@@ -1,6 +1,8 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+// List<dynamic>
 
 class recipesModel {
   String id;
@@ -33,10 +35,10 @@ class recipesModel {
     throw Exception('error');
   }
 
-  static Future<List<recipesModel>> getRecipes() async {
+  static Future<List<recipesModel>> getRecipes(Locale locale) async {
     final supabase = Supabase.instance.client;
     final data = await supabase
-      .from('recipes')
+      .from(locale.languageCode == 'en' ? 'recipes' : 'recipes_tr')
       .select('id, name, description, image');
     if(data.isNotEmpty) {
         return data.map<recipesModel>((recipe) =>
@@ -85,39 +87,44 @@ class ParsedRecipe {
     };
   }
 
-  static Future<ParsedRecipe> getRecipeById(String recipeId) async {
+  static Future<ParsedRecipe> getRecipeById(String recipeId, Locale locale) async {
     final supabase = Supabase.instance.client;
     final data = await supabase
-      .from('recipes')
+      .from(locale.languageCode == 'en' ? 'recipes' : 'recipes_tr')
       .select()
       .eq('id', recipeId);
     if(data.isNotEmpty){
-      return await ParsedRecipe.fromMapAsync(data.first);
+      return await ParsedRecipe.fromMapAsync(data.first, locale);
     }
     throw Exception('error');
   }
 
-  static Future<List<IngredientEntry>> getIngredients(String ingredientsId) async {
+  static Future<List<IngredientEntry>> getIngredients(String ingredientsId, Locale locale) async {
   final supabase = Supabase.instance.client;
   final data = await supabase
-      .from('ingredients')
+      .from(locale.languageCode == 'en' ? 'ingredients' : 'ingredients_tr')
       .select()
       .eq('id', ingredientsId)
       .maybeSingle(); 
 
   if (data != null) {
-    return (jsonDecode(data['ingredients']) as List<dynamic>) 
+    print('String: ${data["ingredients"] is String}');
+    print('List: ${data["ingredients"] is List}');
+    return
+    //  data["ingredients"] is String ? 
+    (jsonDecode(data['ingredients']) as List<dynamic>) 
         .map((item) => IngredientEntry.fromMap(item as Map<String, dynamic>))
         .toList();
+    // : data['ingredients']
   }
 
   return []; 
 }
 
-  static Future<List<StepEntry>> getSteps(String stepsId) async {
+  static Future<List<StepEntry>> getSteps(String stepsId, Locale locale) async {
   final supabase = Supabase.instance.client;
   final data = await supabase
-      .from('steps')
+      .from(locale.languageCode == 'en' ? 'steps' : 'steps_tr')
       .select()
       .eq('id', stepsId)
       .maybeSingle(); 
@@ -131,9 +138,9 @@ class ParsedRecipe {
   return []; 
 }
 
-  static Future<ParsedRecipe> fromMapAsync(Map<String, dynamic> map) async {
-    List<IngredientEntry> ingredients = await getIngredients(map['ingredients']);
-    List<StepEntry> steps = await getSteps(map['steps']);
+  static Future<ParsedRecipe> fromMapAsync(Map<String, dynamic> map, Locale locale) async {
+    List<IngredientEntry> ingredients = await getIngredients(map['ingredients'], locale);
+    List<StepEntry> steps = await getSteps(map['steps'], locale);
 
     return ParsedRecipe(
       id: map['id'] as String? ?? '',

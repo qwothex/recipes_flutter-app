@@ -19,6 +19,10 @@ dependencies:
   permission_handler: ^11.3.0
   provider: ^6.1.2
   flutter_image_compress: ^2.1.0
+  
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -28,4 +32,6 @@ dev_dependencies:
 flutter:
   assets: 
     - assets/images/
+    - assets/lang/en.json
+    - assets/lang/tr.json
   uses-material-design: true

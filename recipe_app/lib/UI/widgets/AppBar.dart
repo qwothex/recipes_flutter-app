@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recipe_app/UI/widgets/CascadingMenu.dart';
+import 'package:recipe_app/app_localizations.dart';
 
 AppBar appBar(bool backButton, String title, BuildContext context) {
 
     return AppBar(
-      title: Text(title),
+      title: Text(AppLocalizations.of(context)?.translate(title) ?? 'No locale'),
       elevation: 0.0,
       centerTitle: true,
       leading: 

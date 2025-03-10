@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/UI/pages/home_page.dart';
 import 'package:recipe_app/UI/pages/recipe_page.dart';
+import 'package:recipe_app/app_localizations.dart';
 import 'package:recipe_app/state/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   
@@ -22,10 +24,12 @@ void main() async {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+
+  MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<StateProvider>().locale;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -33,10 +37,29 @@ class MainApp extends StatelessWidget {
         '/': (context) => HomePage(),
         '/recipe': (context) => RecipePage(),
       },
+      
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
       ),
+
+      locale: locale,
+
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      supportedLocales: const [
+        Locale('en'), 
+        Locale('tr'), 
+      ],
+
+      localeResolutionCallback: (locale, supportedLocales) {
+        return supportedLocales.contains(locale) ? locale : const Locale('en');
+      },
     );
   }
 }

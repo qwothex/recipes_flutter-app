@@ -9,11 +9,11 @@ class FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 175,
+      width: 180,
       height: 50,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(50),
       ),
       child: ElevatedButton(
         onPressed: () {}, 
@@ -23,9 +23,12 @@ class FilterButton extends StatelessWidget {
         child: Text(
           text, 
           style: TextStyle(
-            fontSize: 24,
-            color: Colors.black
+            fontSize: 19,
+            color: Colors.black,
+            overflow: TextOverflow.ellipsis,
           ),
+          textAlign: TextAlign.center,
+          textWidthBasis: TextWidthBasis.parent,
         ),
       ),
     );

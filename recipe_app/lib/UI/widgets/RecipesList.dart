@@ -36,6 +36,7 @@ class recipesModel {
   }
 
   static Future<List<recipesModel>> getRecipes(Locale locale) async {
+    print("RECIPES");
     final supabase = Supabase.instance.client;
     final data = await supabase
       .from(locale.languageCode == 'en' ? 'recipes' : 'recipes_tr')
@@ -108,8 +109,7 @@ class ParsedRecipe {
       .maybeSingle(); 
 
   if (data != null) {
-    print('String: ${data["ingredients"] is String}');
-    print('List: ${data["ingredients"] is List}');
+    print('INGREDIENTS');
     return
     //  data["ingredients"] is String ? 
     (jsonDecode(data['ingredients']) as List<dynamic>) 

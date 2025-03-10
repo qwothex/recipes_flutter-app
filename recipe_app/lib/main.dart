@@ -29,7 +29,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = context.watch<StateProvider>().locale;
+
+    final locale = context.select((StateProvider provider) => provider.locale);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

@@ -18,11 +18,11 @@ class _RecipePageState extends State<RecipePage> {
   String? errorMessage;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    
+void didChangeDependencies() {
+  super.didChangeDependencies();
+
     var id = ModalRoute.of(context)!.settings.arguments as String;
-    final locale = context.watch<StateProvider>().locale;
+    final locale = context.read<StateProvider>().locale;
 
     ParsedRecipe.getRecipeById(id, locale).then((data) {
       if (mounted) {

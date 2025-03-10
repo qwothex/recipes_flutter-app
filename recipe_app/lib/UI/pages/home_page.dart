@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/UI/widgets/AppBar.dart';
 import 'package:recipe_app/UI/widgets/Button.dart';
 import 'package:recipe_app/UI/widgets/RecipesList.dart';
-import 'package:recipe_app/app_localizations.dart';
 import 'package:recipe_app/state/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   String imageUrl = '';
   Locale? locale;
 
-  void fetchRecipes() async{
+    void fetchRecipes() async{
     if(locale != null){
       var data = await recipesModel.getRecipes(locale!);
       if(data.isNotEmpty){
@@ -48,9 +47,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context){
-
     return Scaffold(
-      appBar: appBar(false, 'recipes', context),
+      appBar: appBar(false, 'Recipes', context),
       body: ListView(
         children: [
           Container(
@@ -64,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             ),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)?.translate("title") ?? 'No locale',
+                'Search among 1000 recipes', 
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 50,
@@ -82,16 +80,16 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Column(
                   children: [
-                    FilterButton(text: AppLocalizations.of(context)?.translate("soup") ?? 'No locale'),
+                    FilterButton(text: 'Soup'),
                     SizedBox(height: 15),
-                    FilterButton(text: AppLocalizations.of(context)?.translate("dinner") ?? 'No locale',),
+                    FilterButton(text: 'Dinner'),
                   ]
                 ),
                 Column(
                   children: [
-                    FilterButton(text: AppLocalizations.of(context)?.translate("dessert") ?? 'No locale'),
+                    FilterButton(text: 'Dessert'),
                     SizedBox(height: 15),
-                    FilterButton(text: AppLocalizations.of(context)?.translate("breakfast") ?? 'No locale'),
+                    FilterButton(text: 'Breakfast'),
                   ]
                 )
               ],
@@ -99,7 +97,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 25,),
           Text(
-            AppLocalizations.of(context)?.translate("recommendations") ?? 'No locale', 
+            'Recommendation', 
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 32

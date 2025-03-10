@@ -176,7 +176,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
   ParsedRecipe? recipe;
   void Function(SessionItem) addMessageToSession = (SessionItem message) {};
   void Function() removeLoaderFn = (){};
-  void Function() clearSpeechResult = (){};
   late bool isResponseLoading;
 
 
@@ -292,7 +291,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
           removeLoaderFn(),
           addMessageToSession(SessionItem(text: jsonDecode(res.body)['answer'])),
           setState(() {
-            clearSpeechResult();
             isResponseLoading = false;
             _selectedImage = null;
           })
@@ -306,11 +304,12 @@ class _ChatInputFieldState extends State<ChatInputField> {
     setState(() {
       if(stateProvider.speechResult.isNotEmpty){
         _controller.text = stateProvider.speechResult;
-      };
+        print('qwe');
+        Future.microtask(() => stateProvider.clearSpeechResult());
+      }
       recipe = stateProvider.recipe;
       addMessageToSession = stateProvider.addSessionMessage;
       removeLoaderFn = stateProvider.removeLoader;
-      clearSpeechResult = stateProvider.clearSpeechResult;
     });
 
     return Container(
